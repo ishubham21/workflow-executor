@@ -24,13 +24,7 @@ export const useWorkflowStore = create<WorkflowState>((set) => ({
     set((state) => ({
       workflows: [
         ...state.workflows,
-        {
-          id: uuidv4(),
-          name,
-          description,
-          tasks: [],
-          status: "idle",
-        },
+        newWorkflow,
       ],
     }));
     return newWorkflow;

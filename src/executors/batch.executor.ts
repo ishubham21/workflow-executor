@@ -11,6 +11,12 @@ interface BatchUpdate {
   }>;
 }
 
+/**
+ * BatchExecutor is a utility class that batches store updates
+ * and flushes them after a certain number of updates or a timeout.
+ * 
+ * This is useful for batching updates to the store to prevent multiple re-renders.
+ */
 export class BatchExecutor {
   private batchSize: number;
   private batchTimeout: number;
