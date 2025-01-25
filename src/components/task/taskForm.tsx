@@ -15,14 +15,19 @@ export const TaskForm = ({
 }) => {
   const { definitions } = useTaskDefinitionStore();
   const taskDef = definitions[type];
-
   const [config, setConfig] = React.useState(initialConfig);
 
   if (!taskDef) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(config);
+    const finalConfig = {
+      ...config,
+      type: taskDef.type,
+      name: taskDef.name,
+    };
+
+    onSubmit(finalConfig);
   };
 
   const handleInputChange = (key: string, value: any) => {
@@ -30,7 +35,7 @@ export const TaskForm = ({
   };
 
   return (
-    <Card className="p-4">
+    <Card className="p-4 mt-4">
       <form onSubmit={handleSubmit}>
         {Object.entries(taskDef.schema.inputs).map(([key, schema]) => (
           <div key={key} className="mb-4">

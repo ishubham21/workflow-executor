@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import {
   CalculationConfig,
   EmailConfig,
@@ -9,8 +10,11 @@ import {
 export class TaskExecutor {
   private async executeEmailTask(config: EmailConfig): Promise<TaskResult> {
     try {
-      // Simulate email sending
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      toast({
+        title: "Email Sent",
+        description: `To: ${config.to}\nSubject: ${config.subject}`,
+      });
       return {
         success: true,
         outputs: { sent: true },
@@ -26,7 +30,7 @@ export class TaskExecutor {
 
   private async executeLogTask(config: LogConfig): Promise<TaskResult> {
     try {
-      console[config.level](config.message);
+      console.log(config.message);
       return {
         success: true,
         outputs: { logged: true },
@@ -85,6 +89,7 @@ export class TaskExecutor {
   async executeTask(
     taskConfig: EmailConfig | LogConfig | CalculationConfig
   ): Promise<TaskResult> {
+    console.log({ taskConfig });
     switch (taskConfig.type) {
       case "email":
         return this.executeEmailTask(taskConfig);

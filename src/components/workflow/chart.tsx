@@ -3,9 +3,11 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { ArrowDownIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useWorkflowStore } from "@/store/workflow.store";
+import { useExecutionStore } from "@/store/execution.store";
 
 const WorkflowFlowchart = ({ workflowId }: { workflowId: string }) => {
   const { workflows, reorderTasks } = useWorkflowStore();
+  const { currentTaskId, taskResults } = useExecutionStore();
   const workflow = workflows.find((w) => w.id === workflowId);
 
   if (!workflow) return null;
@@ -37,7 +39,19 @@ const WorkflowFlowchart = ({ workflowId }: { workflowId: string }) => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <Card className="p-4 bg-white shadow-sm">
+                        <Card
+                          className={`p-4 bg-white shadow-sm ${
+                            currentTaskId === task.id
+                              ? "ring-2 ring-blue-500"
+                              : ""
+                          } ${
+                            taskResults[task.id]?.success
+                              ? "bg-green-50"
+                              : taskResults[task.id]?.error
+                              ? "bg-red-50"
+                              : ""
+                          }`}
+                        >
                           <div className="flex items-center justify-between">
                             <div>
                               <h3 className="font-medium">{task.name}</h3>

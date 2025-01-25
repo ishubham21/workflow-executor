@@ -60,12 +60,7 @@ export const logTaskDefinition: TaskDefinition = {
       message: {
         type: "string",
         required: true,
-      },
-      level: {
-        type: "string",
-        required: true,
-        default: "info",
-      },
+      }
     },
     outputs: {
       logged: {

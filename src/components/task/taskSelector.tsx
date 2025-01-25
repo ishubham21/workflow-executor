@@ -14,7 +14,6 @@ export const TaskSelector = ({
 }) => {
   const { definitions } = useTaskDefinitionStore();
 
-  console.log(definitions);
   return (
     <Select onValueChange={onSelect}>
       <SelectTrigger>

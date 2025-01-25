@@ -16,7 +16,6 @@ const TaskList = ({ workflowId }: { workflowId: string }) => {
   if (!workflow) return null;
 
   const handleTaskSubmit = (config: Record<string, any>) => {
-    console.log({ config });
     if (selectedTaskType) {
       const taskDef =
         useTaskDefinitionStore.getState().definitions[selectedTaskType];
