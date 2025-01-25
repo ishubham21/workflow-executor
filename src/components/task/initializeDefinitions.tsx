@@ -6,6 +6,7 @@ import {
   useTaskDefinitionStore,
 } from "@/store/taskDefinition.store";
 
+// This component helps in initializing the default task definitions: Email Task, Log Task, and Calculation Task.
 export const InitializeTaskDefinitions = () => {
   const { registerTaskDefinition } = useTaskDefinitionStore();
 

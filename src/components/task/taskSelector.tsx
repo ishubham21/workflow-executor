@@ -6,14 +6,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTaskDefinitionStore } from "@/store/taskDefinition.store";
+import { memo } from "react";
 
-export const TaskSelector = ({
-  onSelect,
-}: {
+interface ITaskSelector {
   onSelect: (type: string) => void;
-}) => {
-  const { definitions } = useTaskDefinitionStore();
+}
 
+export const TaskSelector = memo(({ onSelect }: ITaskSelector) => {
+  const { definitions } = useTaskDefinitionStore();
   return (
     <Select onValueChange={onSelect}>
       <SelectTrigger>
@@ -28,4 +28,4 @@ export const TaskSelector = ({
       </SelectContent>
     </Select>
   );
-};
+});

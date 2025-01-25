@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, List, MoveDown } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWorkflowStore } from '@/store/workflow.store';
-import WorkflowExecutor from './executor';
+import WorkflowExecutor from './workflowExecutor';
 import TaskList from '../task/taskList';
-import WorkflowFlowchart from './chart';
+import WorkflowFlowchart from './workflowChart';
 
 const WorkflowBuilder = () => {
   const { workflows, addWorkflow } = useWorkflowStore();
   const [selectedWorkflow, setSelectedWorkflow] = useState<string | null>(null);
 
-  const handleAddWorkflow = () => {
+  const handleAddWorkflow = useCallback(() => {
     const workflow = addWorkflow(`Workflow ${workflows.length + 1}`);
     setSelectedWorkflow(workflow.id);
-  };
+  }, [addWorkflow, workflows?.length]);
 
   const selectedWorkflowData = workflows.find(w => w.id === selectedWorkflow);
 

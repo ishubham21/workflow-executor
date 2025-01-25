@@ -8,7 +8,6 @@ export interface Workflow {
   status: "idle" | "running" | "completed" | "error";
 }
 
-// Store interfaces
 export interface WorkflowState {
   workflows: Workflow[];
   addWorkflow: (name: string, description?: string) => Workflow;

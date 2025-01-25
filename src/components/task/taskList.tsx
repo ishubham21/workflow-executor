@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, GripVertical, X } from "lucide-react";
+import { Plus, GripVertical, X, Clock } from "lucide-react";
 import { useWorkflowStore } from "@/store/workflow.store";
 import { TaskSelector } from "./taskSelector";
 import { TaskForm } from "./taskForm";
 import { useTaskDefinitionStore } from "@/store/taskDefinition.store";
+import dayjs from "dayjs";
 
-const TaskList = ({ workflowId }: { workflowId: string }) => {
+const TaskList = memo(({ workflowId }: { workflowId: string }) => {
   const { workflows, addTask, removeTask, reorderTasks } = useWorkflowStore();
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [selectedTaskType, setSelectedTaskType] = useState<string | null>(null);
@@ -81,8 +82,14 @@ const TaskList = ({ workflowId }: { workflowId: string }) => {
           >
             <GripVertical className="cursor-move text-gray-400" size={20} />
             <div className="flex-grow">
+              <div className="text-sm text-gray-500">
+                Task Id: {task.id.slice(0, 8)}
+              </div>
               <div className="font-medium">{task.name}</div>
-              <div className="text-sm text-gray-500">{task.type}</div>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Clock size={10} />
+                <span>{dayjs().format("YY-MM-DD hh:mm:ss")}</span>
+              </div>
             </div>
             <Button
               variant="ghost"
@@ -96,6 +103,6 @@ const TaskList = ({ workflowId }: { workflowId: string }) => {
       </div>
     </div>
   );
-};
+});
 
 export default TaskList;

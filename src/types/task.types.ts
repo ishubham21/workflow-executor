@@ -42,13 +42,14 @@ export interface TaskConfig {
   [key: string]: any;
 }
 
-// Email Task
 export interface EmailConfig extends TaskConfig {
   type: "email";
   to: string;
   subject: string;
   body: string;
 }
+
+// default 
 
 export interface EmailOutputs {
   sent: boolean;
@@ -81,6 +82,6 @@ export interface CalculationOutputs {
 
 export type TaskResult = {
   success: boolean;
-  outputs: EmailOutputs | LogOutputs | CalculationOutputs;
+  outputs: EmailOutputs | LogOutputs | CalculationOutputs | {};
   error?: string;
 };

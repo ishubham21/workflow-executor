@@ -1,9 +1,18 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
-import { Workflow, WorkflowState } from "../types/workflow.types";
+import { Workflow, WorkflowState } from "@/types/workflow.types";
 
+/**
+ * Define the store for managing workflow state
+ */
 export const useWorkflowStore = create<WorkflowState>((set) => ({
+  // Store all workflows
   workflows: [],
+
+  /**
+   * Add a new workflow with given name and description
+   * Returns the newly created workflow object
+   */
   addWorkflow: (name, description) => {
     const newWorkflow = {
       id: uuidv4(),
@@ -26,10 +35,17 @@ export const useWorkflowStore = create<WorkflowState>((set) => ({
     }));
     return newWorkflow;
   },
+
+  // Remove a workflow by its ID
   removeWorkflow: (id) =>
     set((state) => ({
       workflows: state.workflows.filter((w) => w.id !== id),
     })),
+
+  /**
+   * Add a new task to a specific workflow
+   * Generates new ID and sets order based on existing tasks
+   */
   addTask: (workflowId, task) =>
     set((state) => ({
       workflows: state.workflows.map((workflow) =>
@@ -48,6 +64,8 @@ export const useWorkflowStore = create<WorkflowState>((set) => ({
           : workflow
       ),
     })),
+
+  // Remove a specific task from a workflow
   removeTask: (workflowId, taskId) =>
     set((state) => ({
       workflows: state.workflows.map((workflow) =>
@@ -59,6 +77,8 @@ export const useWorkflowStore = create<WorkflowState>((set) => ({
           : workflow
       ),
     })),
+
+  // Update a specific task's properties
   updateTask: (workflowId, taskId, updates) =>
     set((state) => ({
       workflows: state.workflows.map((workflow) =>
@@ -72,6 +92,11 @@ export const useWorkflowStore = create<WorkflowState>((set) => ({
           : workflow
       ),
     })),
+
+  /**
+   * Reorder tasks within a workflow
+   * Updates order of all affected tasks and sorts them
+   */
   reorderTasks: (workflowId, taskId, newOrder) =>
     set((state) => ({
       workflows: state.workflows.map((workflow) =>
