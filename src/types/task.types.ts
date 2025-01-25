@@ -66,7 +66,7 @@ export interface LogOutputs {
   logged: boolean;
 }
 
-export type Operation = "add" | "subtract" | "multiply" | "divide";
+export type Operation = "+" | "-" | "*" | "/" | "add" | "subtract" | "multiply" | "divide";
 
 export interface CalculationConfig extends TaskConfig {
   type: "calculation";

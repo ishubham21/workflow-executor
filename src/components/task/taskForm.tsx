@@ -43,9 +43,10 @@ export const TaskForm = ({
             {schema.type === "string" && (
               <Input
                 type="text"
-                value={config[key] || schema.default || ""}
+                value={config[key] || ""}
                 onChange={(e) => handleInputChange(key, e.target.value)}
                 required={schema.required}
+                placeholder={schema.default as ""}
               />
             )}
             {schema.type === "number" && (

@@ -53,6 +53,7 @@ export class TaskExecutor {
         config.value1,
         config.value2
       );
+      console.log(`Calculation result: ${result}`);
       return {
         success: true,
         outputs: { result },
@@ -72,6 +73,7 @@ export class TaskExecutor {
     value2: number
   ): number {
     switch (operation) {
+      case "+":
       case "add":
         return value1 + value2;
       case "subtract":
@@ -89,7 +91,6 @@ export class TaskExecutor {
   async executeTask(
     taskConfig: EmailConfig | LogConfig | CalculationConfig
   ): Promise<TaskResult> {
-    console.log({ taskConfig });
     switch (taskConfig.type) {
       case "email":
         return this.executeEmailTask(taskConfig);
@@ -105,20 +106,5 @@ export class TaskExecutor {
           error: "Unknown task type",
         };
     }
-  }
-
-  async executeWorkflow(
-    tasks: (EmailConfig | LogConfig | CalculationConfig)[]
-  ): Promise<TaskResult[]> {
-    const results: TaskResult[] = [];
-    for (const task of tasks) {
-      const result = await this.executeTask(task);
-      results.push(result);
-
-      if (!result.success) {
-        break; // Stop workflow execution on first failure
-      }
-    }
-    return results;
   }
 }

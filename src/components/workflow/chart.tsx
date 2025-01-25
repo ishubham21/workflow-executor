@@ -1,5 +1,4 @@
 import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { ArrowDownIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useWorkflowStore } from "@/store/workflow.store";
@@ -12,71 +11,61 @@ const WorkflowFlowchart = ({ workflowId }: { workflowId: string }) => {
 
   if (!workflow) return null;
 
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return;
+  const handleDragStart = (e: React.DragEvent, taskId: string) => {
+    e.dataTransfer.setData("taskId", taskId);
+  };
 
-    const taskId = result.draggableId;
-    const newOrder = result.destination.index;
-    reorderTasks(workflowId, taskId, newOrder);
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent, targetTaskId: string) => {
+    e.preventDefault();
+    const draggedTaskId = e.dataTransfer.getData("taskId");
+    if (draggedTaskId !== targetTaskId) {
+      const targetTask = workflow.tasks.find((t) => t.id === targetTaskId);
+      if (targetTask) {
+        reorderTasks(workflowId, draggedTaskId, targetTask.order);
+      }
+    }
   };
 
   return (
     <div className="p-4">
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="workflow">
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="space-y-4"
+      <div className="space-y-4">
+        {workflow.tasks.map((task, index) => (
+          <React.Fragment key={task.id}>
+            <Card
+              className={`p-4 bg-white shadow-sm ${
+                currentTaskId === task.id ? "ring-2 ring-blue-500" : ""
+              } ${
+                taskResults[task.id]?.success
+                  ? "bg-green-50"
+                  : taskResults[task.id]?.error
+                  ? "bg-red-50"
+                  : ""
+              }`}
+              draggable
+              onDragStart={(e) => handleDragStart(e, task.id)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, task.id)}
             >
-              {workflow.tasks.map((task, index) => (
-                <React.Fragment key={task.id}>
-                  <Draggable draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <Card
-                          className={`p-4 bg-white shadow-sm ${
-                            currentTaskId === task.id
-                              ? "ring-2 ring-blue-500"
-                              : ""
-                          } ${
-                            taskResults[task.id]?.success
-                              ? "bg-green-50"
-                              : taskResults[task.id]?.error
-                              ? "bg-red-50"
-                              : ""
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <h3 className="font-medium">{task.name}</h3>
-                              <p className="text-sm text-gray-500">
-                                {task.type}
-                              </p>
-                            </div>
-                            <div className="text-gray-400">:::</div>
-                          </div>
-                        </Card>
-                      </div>
-                    )}
-                  </Draggable>
-                  {index < workflow.tasks.length - 1 && (
-                    <div className="flex justify-center">
-                      <ArrowDownIcon className="text-gray-400" size={20} />
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium">{task.name}</h3>
+                  <p className="text-sm text-gray-500">{task.type}</p>
+                </div>
+                <div className="text-gray-400 cursor-move">:::</div>
+              </div>
+            </Card>
+            {index < workflow.tasks.length - 1 && (
+              <div className="flex justify-center">
+                <ArrowDownIcon className="text-gray-400" size={20} />
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, List } from 'lucide-react';
+import { Plus, List, MoveDown } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWorkflowStore } from '@/store/workflow.store';
 import WorkflowExecutor from './executor';
@@ -67,7 +67,7 @@ const WorkflowBuilder = () => {
                       <List size={16} /> List View
                     </TabsTrigger>
                     <TabsTrigger value="flowchart" className="flex items-center gap-2">
-                        Flowchart
+                        <MoveDown size={16}/> Flowchart
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="list">
