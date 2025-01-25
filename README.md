@@ -158,4 +158,21 @@ interface TaskDefinition {
 - **Notifications**: Uses toast messages for errors and success states.
 - **Loading States**: Provides visual indicators for ongoing operations.
 
+### Test
+- Used jest for testing important store configurations 
 
+### Technologies Used
+
+The following technologies were selected for their specific advantages in building the workflow system:
+
+- React: Robust library for building interactive UIs with a component-based architecture and efficient rendering.
+- Vite: Lightning-fast build tool with excellent support for modern JavaScript and TypeScript projects.
+- TypeScript: Enhances JavaScript with static typing, improving code reliability and reducing runtime errors.
+- SWC: High-performance JavaScript/TypeScript compiler for faster builds and transformations.
+- Zustand: Lightweight state management with minimal boilerplate and excellent TypeScript support.
+- Day.js: Lightweight library for parsing, validating, manipulating, and formatting dates.
+- shadcn: Provides a UI component system tailored for modern React applications.
+- TailwindCSS: Utility-first CSS framework for rapid and consistent UI development.
+- ESLint and Prettier: Ensure consistent code formatting and linting for maintainable codebase.
+- Jest: Comprehensive testing framework for React and TypeScript code.
+- uuid - To generate unique indentifiers
