@@ -7,7 +7,7 @@
 - Build the project once `pnpm run build`
 - Run the development server `pnpm run dev`
 - Head over to `localhost:5173` to access the project UI
-- Deployed version can be found [here]()
+- Deployed version can be found [here](https://workflow-executor.vercel.app/)
 
 ## Architecture Overview
 
